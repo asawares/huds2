@@ -1,76 +1,122 @@
-function showLoadingNotification() {
-    if (document.getElementById('loadingNotification')) return;
-    loadingNotification = document.createElement('div');
-    loadingNotification.id = 'loadingNotification';
-    loadingNotification.style.position = 'fixed';
-    loadingNotification.style.bottom = '10%';
-    loadingNotification.style.right = '10%'; // нижний правый угол
-    loadingNotification.style.transform = 'none';
-    loadingNotification.style.display = 'flex';
-    loadingNotification.style.alignItems = 'center';
-    loadingNotification.style.padding = '25px 35px'; // увеличенный размер
-    loadingNotification.style.backgroundColor = '#ffffff'; // белый фон
-    loadingNotification.style.color = '#000000'; // черный текст
-    loadingNotification.style.fontFamily = 'Arial, sans-serif';
-    loadingNotification.style.fontSize = '18px';
-    loadingNotification.style.borderRadius = '12px'; // немного скругленные края
-    loadingNotification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-    loadingNotification.style.opacity = '0';
-    loadingNotification.style.transition = 'opacity 2.5s';
-    loadingNotification.style.zIndex = '1000';
-    
-    const text = document.createElement('span');
-    text.textContent = 't.me/coreworkshop';
-    loadingNotification.appendChild(text);
-    
-    document.body.appendChild(loadingNotification);
-    setTimeout(() => { loadingNotification.style.opacity = '1'; }, 10);
-}
-
-mazzx.addLabel = function (message) {
-    createContainer();
-    const notification = document.createElement('div');
-    notification.className = 'mazzx-notification';
-    notification.style.position = 'relative';
-    notification.style.padding = '25px 35px'; // увеличенный размер
-    notification.style.marginBottom = '10px';
-    notification.style.backgroundColor = '#ffffff'; // белый фон
-    notification.style.color = '#000000'; // черный текст
-    notification.style.fontFamily = 'Arial, sans-serif';
-    notification.style.fontSize = '18px';
-    notification.style.borderRadius = '12px'; // немного скругленные края
-    notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
-    notification.style.opacity = '0';
-    notification.style.transition = 'opacity 2.5s';
-    notification.style.display = 'flex';
-    notification.style.justifyContent = 'center';
-    notification.style.alignItems = 'center';
-
-    // перемещаем контейнер уведомлений в нижний правый угол
-    notificationContainer.style.bottom = '10%';
-    notificationContainer.style.right = '10%';
-    notificationContainer.style.left = 'auto';
-    notificationContainer.style.transform = 'none';
-
-    const text = document.createElement('span');
-    text.textContent = message;
-    notification.appendChild(text);
-    notificationContainer.appendChild(notification);
-
-    setTimeout(() => { notification.style.opacity = '1'; }, 10);
-    setTimeout(() => {
-        notification.style.opacity = '0';
-        setTimeout(() => {
-            if (notification) notification.remove();
-            if (notificationContainer && notificationContainer.children.length === 0) {
-                notificationContainer.remove();
-                notificationContainer = null;
+function AddHud() {
+    let hudStyleElement;
+    let loadingNotification;
+    function showLoadingNotification() {
+        if (document.getElementById('loadingNotification')) return;
+        loadingNotification = document.createElement('div');
+        loadingNotification.id = 'loadingNotification';
+        loadingNotification.style.position = 'fixed';
+        loadingNotification.style.bottom = '10%';
+        loadingNotification.style.left = '50%';
+        loadingNotification.style.transform = 'translateX(-50%)';
+        loadingNotification.style.display = 'flex';
+        loadingNotification.style.alignItems = 'center';
+        loadingNotification.style.padding = '10px 20px';
+        loadingNotification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        loadingNotification.style.color = '#fff';
+        loadingNotification.style.fontFamily = 'Arial, sans-serif';
+        loadingNotification.style.fontSize = '16px';
+        loadingNotification.style.borderRadius = '8px';
+        loadingNotification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+        loadingNotification.style.opacity = '0';
+        loadingNotification.style.transition = 'opacity 2.5s';
+        loadingNotification.style.zIndex = '1000';
+        const spinner = document.createElement('div');
+        spinner.style.width = '20px';
+        spinner.style.height = '20px';
+        spinner.style.border = '3px solid rgba(255, 255, 255, 0.3)';
+        spinner.style.borderTop = '3px solid #fff';
+        spinner.style.borderRadius = '50%';
+        spinner.style.marginRight = '10px';
+        spinner.style.animation = 'spin 1s linear infinite';
+        const text = document.createElement('span');
+        text.textContent = 't.me/coreworkshop';
+        loadingNotification.appendChild(spinner);
+        loadingNotification.appendChild(text);
+        document.body.appendChild(loadingNotification);
+        const loadingStyle = document.createElement('style');
+        loadingStyle.textContent = `
+            @keyframes spin {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
             }
-        }, 0);
-    }, 0);
-};
-	
+        `;
+        document.head.appendChild(loadingStyle);
+        setTimeout(() => {
+            loadingNotification.style.opacity = '1';
+        }, 10);
+    }
+    showLoadingNotification();
+    window.mazzx = window.mazzx || {};
+    function formatNumberWithDots(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+    let notificationContainer;
+    function createContainer() {
+        if (!notificationContainer) {
+            notificationContainer = document.createElement('div');
+            notificationContainer.id = 'mazzxNotificationContainer';
+            notificationContainer.style.position = 'fixed';
+            notificationContainer.style.bottom = '14%';
+            notificationContainer.style.left = '50%';
+            notificationContainer.style.transform = 'translateX(-50%)';
+            notificationContainer.style.zIndex = '1000';
+            notificationContainer.style.display = 'flex';
+            notificationContainer.style.flexDirection = 'column';
+            notificationContainer.style.alignItems = 'center';
+            document.body.appendChild(notificationContainer);
+        }
+    }
+    mazzx.addLabel = function (message) {
+        createContainer();
+        const notification = document.createElement('div');
+        notification.className = 'mazzx-notification';
+        notification.style.position = 'relative';
+        notification.style.padding = '10px 20px';
+        notification.style.marginBottom = '10px';
+        notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+        notification.style.color = '#fff';
+        notification.style.fontFamily = 'Arial, sans-serif';
+        notification.style.fontSize = '16px';
+        notification.style.borderRadius = '8px';
+        notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 2.5s';
+        notification.style.display = 'flex';
+        notification.style.justifyContent = 'center';
+        notification.style.alignItems = 'center';
+        const icon = document.createElement('img');
+        icon.src = 'https://i.imgur.com/rBjM3OW.png';
+        icon.style.width = '20px';
+        icon.style.height = '20px';
+        icon.style.marginRight = '10px';
+        const text = document.createElement('span');
+        text.textContent = message;
+        notification.appendChild(icon);
+        notification.appendChild(text);
+        notificationContainer.appendChild(notification);
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 10);
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                if (notification) {
+                    notification.remove();
+                }
+                if (notificationContainer && notificationContainer.children.length === 0) {
+                    notificationContainer.remove();
+                    notificationContainer = null;
+                }
+            }, 2500);
+        }, 6000);
+    };
     mazzx.addLabel("")
+	
     const hudScript = document.currentScript;
     const hudElements = [];
 const oldRadmirConfig = {
@@ -717,5 +763,122 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
   };
 AddHud();
 
+const oldInfoCard = {
+    gameTextInterval: null,
+    isBusinessOpen: false,
+    openOldInfoCard(params, interfaceName) {
+        if (typeof params === "string") params = JSON.parse(params);
 
+        let houseTypes = [
+            "Эконом класс",
+            "Деревенски дом",
+            "Средни класс",
+            "Премиум класс",
+            "Элитны дом",
+            "Эконом класс",
+            "VIP класс",
+            "Квартира",
+        ];
 
+        let type = interfaceName == "Business" ? 1 : 0;
+        let name = type == 0 ? params[1] : params[2];
+        let roomAmount = type == 0 ? params[4] : params[6];
+        let owner = type == 0 ? params[2] : params[3];
+        let price = type == 0 ? params[6] : params[5];
+        let rent = type == 0 ? params[5] : params[4];
+        let paramType =
+            type == 0 ? houseTypes.indexOf(params[3].replace("й", "").replace("й", "").replace("+", "")) : params[1];
+
+        params = JSON.stringify([type, name, roomAmount, owner, price, rent, paramType]);
+
+        window.openInterface("InfoCard", params);
+
+        if (name.toLocaleLowerCase().includes("киоск")) {
+            executeFunctionWhen(
+                () => {
+                    const head = window.interface("InfoCard").$el.querySelector(".biz .status");
+                    head.classList.remove("status");
+                    head.classList.add("text");
+
+                    head.innerHTML = `<span style="color: hsl(336deg 28% 67%)">Свободных полок: ${roomAmount}<span>`;
+
+                    window.interface("InfoCard").$el.querySelector(".params .info-card__data-row .text").textContent =
+                        "Налог на продажу";
+
+                    window
+                        .interface("InfoCard")
+                        .$el.querySelector(".params .info-card__data-row .title").textContent = `${rent}%`;
+                },
+                () => window.interface("InfoCard") && typeof window.interface("InfoCard").$el !== "undefined",
+                100
+            );
+
+            return;
+        }
+
+        executeFunctionWhen(
+            () => {
+                const head = window.interface("InfoCard").$el.querySelector(".title .span");
+
+                head.textContent = name;
+            },
+            () => window.interface("InfoCard") && typeof window.interface("InfoCard").$el !== "undefined",
+            100
+        );
+    },
+    onCloseInterface() {
+        clearInterval(oldInfoCard.gameTextInterval);
+        window.interface("GameText").add(`[3,\"~w~Для взаимодействия нажмите ~g~ALT\",500,0,0,0]`);
+        window.closeInterface("InfoCard");
+    },
+    hookAndReplaceNewInfoCard() {
+        window.App.$refs.Appartament = [
+            {
+                close: () => this.onCloseInterface(),
+            },
+        ];
+
+        window.App.$refs.Business = [
+            {
+                close: () => this.onCloseInterface(),
+            },
+        ];
+
+        window.openInterface = new Proxy(window.openInterface, {
+            apply: (target, thisArgs, args) => {
+                try {
+                    if (args[0] === "Business") this.isBusinessOpen = true;
+
+                    if (args[0] === "Business" || args[0] === "Appartament") {
+                        window.interface("GameText").add(`[3,\"~w~Для взаимодействия нажмите ~g~ALT\",3000,0,0,0]`);
+                        oldInfoCard.gameTextInterval = setInterval(
+                            () =>
+                                window
+                                    .interface("GameText")
+                                    .add(`[3,\"~w~Для взаимодействия нажмите ~g~ALT\",3000,0,0,0]`),
+                            2000
+                        );
+                        oldInfoCard.openOldInfoCard(args[1], args[0]);
+                        return 0;
+                    }
+                } catch (error) {}
+
+                return Reflect.apply(target, thisArgs, args);
+            },
+        });
+
+        this.onKeyDown();
+
+        jsLoader.showConnectedScript("info", "Старая карточка бизов/домов by sunset");
+    },
+
+    onKeyDown() {
+        document.addEventListener("keydown", (e) => {
+            if (e.repeat) return;
+
+            if (this.isBusinessOpen && e.keyCode === 18) window.sendClientEvent(0, "Business_OnPlayerEnter");
+        });
+    },
+};
+
+oldInfoCard.hookAndReplaceNewInfoCard();
