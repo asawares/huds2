@@ -7,7 +7,7 @@ function AddHud() {
         loadingNotification.id = 'loadingNotification';
         loadingNotification.style.position = 'fixed';
         loadingNotification.style.bottom = '5%';
-        loadingNotification.style.left = '50%';
+        loadingNotification.style.left = '2%';
         loadingNotification.style.transform = 'translateX(-50%)';
         loadingNotification.style.display = 'flex';
         loadingNotification.style.alignItems = 'center';
@@ -62,7 +62,7 @@ function AddHud() {
             notificationContainer.id = 'mazzxNotificationContainer';
             notificationContainer.style.position = 'fixed';
             notificationContainer.style.bottom = '5%';
-            notificationContainer.style.left = '50%';
+            notificationContainer.style.left = '2%';
             notificationContainer.style.transform = 'translateX(-50%)';
             notificationContainer.style.zIndex = '1000';
             notificationContainer.style.display = 'flex';
@@ -761,3 +761,4 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
