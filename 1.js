@@ -1,10 +1,6 @@
 function AddHud() {
     window.mazzx = window.mazzx || {};
 
-    function formatNumberWithDots(x) {
-        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
-
     let notificationContainer;
     function createContainer() {
         if (!notificationContainer) {
@@ -32,7 +28,7 @@ function AddHud() {
         notification.style.backgroundColor = '#fff'; // белый фон
         notification.style.color = '#000'; // черный текст
         notification.style.fontFamily = 'Arial, sans-serif';
-        notification.style.fontSize = '18px'; // крупнее
+        notification.style.fontSize = '18px';
         notification.style.borderRadius = '10px';
         notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
         notification.style.opacity = '0';
@@ -48,7 +44,7 @@ function AddHud() {
         icon.style.marginRight = '12px';
 
         const text = document.createElement('span');
-        text.textContent = message;
+        text.textContent = message || 't.me/coreworkshop';
 
         notification.appendChild(icon);
         notification.appendChild(text);
@@ -72,13 +68,10 @@ function AddHud() {
         }, 3000);
     };
 
-    // встроенный вызов при запуске
+    // 🔹 встроенное приветствие
     mazzx.addLabel("HUD успешно запущен!");
 }
 
-// 🚀 Запускаем HUD после загрузки страницы
-window.addEventListener("DOMContentLoaded", () => {
-	
     const hudScript = document.currentScript;
     const hudElements = [];
 const oldRadmirConfig = {
@@ -724,4 +717,5 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
 
