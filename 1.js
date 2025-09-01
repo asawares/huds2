@@ -107,7 +107,7 @@ function AddHud() {
         icon.style.marginRight = '10px';
 
         const text = document.createElement('span');
-        text.innerText = message; // innerText для корректного отображения русских символов
+        text.innerText = message; // innerText для русских символов
 
         notification.appendChild(icon);
         notification.appendChild(text);
@@ -130,9 +130,13 @@ function AddHud() {
     };
 
     // Авто-уведомление при входе в игру
-    window.addEventListener('load', () => {
+    if (document.body) {
         mazzx.addLabel("Добро пожаловать в игру!");
-    });
+    } else {
+        document.addEventListener('DOMContentLoaded', () => {
+            mazzx.addLabel("Добро пожаловать в игру!");
+        });
+    }
 
     const hudScript = document.currentScript;
     const hudElements = [];
@@ -779,4 +783,5 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
 
