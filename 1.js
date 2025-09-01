@@ -2,8 +2,10 @@ function AddHud() {
     let hudStyleElement;
     let loadingNotification;
 
+    // Показ загрузочного уведомления
     function showLoadingNotification() {
         if (document.getElementById('loadingNotification')) return;
+
         loadingNotification = document.createElement('div');
         loadingNotification.id = 'loadingNotification';
         loadingNotification.style.position = 'fixed';
@@ -52,11 +54,17 @@ function AddHud() {
             loadingNotification.style.opacity = '1';
         }, 10);
     }
+
     showLoadingNotification();
 
     window.mazzx = window.mazzx || {};
 
+    function formatNumberWithDots(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
     let notificationContainer;
+
     function createContainer() {
         if (!notificationContainer) {
             notificationContainer = document.createElement('div');
@@ -72,7 +80,7 @@ function AddHud() {
         }
     }
 
-    mazzx.addLabel = function (message) {
+    mazzx.addLabel = function(message) {
         createContainer();
 
         const notification = document.createElement('div');
@@ -80,7 +88,7 @@ function AddHud() {
         notification.style.position = 'relative';
         notification.style.padding = '15px 25px';
         notification.style.marginBottom = '10px';
-        notification.style.backgroundColor = 'rgba(255, 255, 255, 0.95)'; // белый фон
+        notification.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
         notification.style.color = '#000';
         notification.style.fontFamily = 'Arial, sans-serif';
         notification.style.fontSize = '16px';
@@ -99,7 +107,7 @@ function AddHud() {
         icon.style.marginRight = '10px';
 
         const text = document.createElement('span');
-        text.textContent = message;
+        text.innerText = message; // innerText для корректного отображения русских символов
 
         notification.appendChild(icon);
         notification.appendChild(text);
@@ -121,7 +129,7 @@ function AddHud() {
         }, 6000);
     };
 
-    // Автоматическое уведомление при входе в игру
+    // Авто-уведомление при входе в игру
     window.addEventListener('load', () => {
         mazzx.addLabel("Добро пожаловать в игру!");
     });
@@ -771,3 +779,4 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
