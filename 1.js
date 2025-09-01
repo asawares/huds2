@@ -1,153 +1,75 @@
-function AddHud() {
-    let hudStyleElement;
-    let loadingNotification;
-function showCustomNotification(title, status, iconType = "info") {
-    const containerId = "customNotificationContainer";
-
-    // Контейнер для стека уведомлений
-    let container = document.getElementById(containerId);
-    if (!container) {
-        container = document.createElement("div");
-        container.id = containerId;
-        container.style.position = "fixed";
-        container.style.bottom = "2%";
-        container.style.right = "2%";
-        container.style.display = "flex";
-        container.style.flexDirection = "column";
-        container.style.gap = "10px";
-        container.style.zIndex = "1000";
-        document.body.appendChild(container);
-    }
-
-    // Само уведомление
-    const notification = document.createElement("div");
-    notification.style.display = "flex";
-    notification.style.alignItems = "center";
-    notification.style.gap = "12px";
-    notification.style.backgroundColor = "#fff";
-    notification.style.color = "#000";
-    notification.style.padding = "12px 16px";
-    notification.style.borderRadius = "10px";
-    notification.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
-    notification.style.fontFamily = "Arial, sans-serif";
-    notification.style.fontSize = "15px";
-    notification.style.minWidth = "220px";
-    notification.style.opacity = "0";
-    notification.style.transition = "opacity 0.5s ease";
-
-    // Иконка
-    const icon = document.createElement("div");
-    icon.style.width = "24px";
-    icon.style.height = "24px";
-    icon.style.borderRadius = "50%";
-    icon.style.display = "flex";
-    icon.style.alignItems = "center";
-    icon.style.justifyContent = "center";
-    icon.style.flexShrink = "0";
-
-    if (iconType === "info") {
-        icon.style.backgroundColor = "#2196f3";
-        icon.innerHTML = `<span style="color:white;font-weight:bold;">i</span>`;
-    } else if (iconType === "success") {
-        icon.style.backgroundColor = "#4caf50";
-        icon.innerHTML = `<span style="color:white;font-weight:bold;">✓</span>`;
-    }
-
-    // Текст
-    const textWrapper = document.createElement("div");
-    textWrapper.style.display = "flex";
-    textWrapper.style.flexDirection = "column";
-
-    const titleEl = document.createElement("div");
-    titleEl.textContent = title;
-    titleEl.style.fontWeight = "500";
-
-    const statusEl = document.createElement("div");
-    statusEl.textContent = status;
-    statusEl.style.fontSize = "13px";
-    statusEl.style.color = "#555";
-
-    textWrapper.appendChild(titleEl);
-    textWrapper.appendChild(statusEl);
-
-    // Собираем
-    notification.appendChild(icon);
-    notification.appendChild(textWrapper);
-    container.appendChild(notification);
-
-    // Анимация появления
-    setTimeout(() => {
-        notification.style.opacity = "1";
-    }, 50);
-
-    // Удаление через 5 сек
-    setTimeout(() => {
-        notification.style.opacity = "0";
-        setTimeout(() => container.removeChild(notification), 500);
-    }, 5000);
+function showLoadingNotification() {
+    if (document.getElementById('loadingNotification')) return;
+    loadingNotification = document.createElement('div');
+    loadingNotification.id = 'loadingNotification';
+    loadingNotification.style.position = 'fixed';
+    loadingNotification.style.bottom = '10%';
+    loadingNotification.style.right = '10%'; // нижний правый угол
+    loadingNotification.style.transform = 'none';
+    loadingNotification.style.display = 'flex';
+    loadingNotification.style.alignItems = 'center';
+    loadingNotification.style.padding = '25px 35px'; // увеличенный размер
+    loadingNotification.style.backgroundColor = '#ffffff'; // белый фон
+    loadingNotification.style.color = '#000000'; // черный текст
+    loadingNotification.style.fontFamily = 'Arial, sans-serif';
+    loadingNotification.style.fontSize = '18px';
+    loadingNotification.style.borderRadius = '12px'; // немного скругленные края
+    loadingNotification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    loadingNotification.style.opacity = '0';
+    loadingNotification.style.transition = 'opacity 2.5s';
+    loadingNotification.style.zIndex = '1000';
+    
+    const text = document.createElement('span');
+    text.textContent = 't.me/coreworkshop';
+    loadingNotification.appendChild(text);
+    
+    document.body.appendChild(loadingNotification);
+    setTimeout(() => { loadingNotification.style.opacity = '1'; }, 10);
 }
-    let notificationContainer;
-    function createContainer() {
-        if (!notificationContainer) {
-            notificationContainer = document.createElement('div');
-            notificationContainer.id = 'mazzxNotificationContainer';
-            notificationContainer.style.position = 'fixed';
-            notificationContainer.style.bottom = '-10%';
-            notificationContainer.style.left = '-12%';
-            notificationContainer.style.transform = 'translateX(-50%)';
-            notificationContainer.style.zIndex = '1000';
-            notificationContainer.style.display = 'flex';
-            notificationContainer.style.flexDirection = 'column';
-            notificationContainer.style.alignItems = 'center';
-            document.body.appendChild(notificationContainer);
-        }
-    }
-    mazzx.addLabel = function (message) {
-        createContainer();
-        const notification = document.createElement('div');
-        notification.className = 'mazzx-notification';
-        notification.style.position = 'relative';
-        notification.style.padding = '10px 20px';
-        notification.style.marginBottom = '10px';
-        notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-        notification.style.color = '#fff';
-        notification.style.fontFamily = 'Arial, sans-serif';
-        notification.style.fontSize = '16px';
-        notification.style.borderRadius = '8px';
-        notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
+
+mazzx.addLabel = function (message) {
+    createContainer();
+    const notification = document.createElement('div');
+    notification.className = 'mazzx-notification';
+    notification.style.position = 'relative';
+    notification.style.padding = '25px 35px'; // увеличенный размер
+    notification.style.marginBottom = '10px';
+    notification.style.backgroundColor = '#ffffff'; // белый фон
+    notification.style.color = '#000000'; // черный текст
+    notification.style.fontFamily = 'Arial, sans-serif';
+    notification.style.fontSize = '18px';
+    notification.style.borderRadius = '12px'; // немного скругленные края
+    notification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+    notification.style.opacity = '0';
+    notification.style.transition = 'opacity 2.5s';
+    notification.style.display = 'flex';
+    notification.style.justifyContent = 'center';
+    notification.style.alignItems = 'center';
+
+    // перемещаем контейнер уведомлений в нижний правый угол
+    notificationContainer.style.bottom = '10%';
+    notificationContainer.style.right = '10%';
+    notificationContainer.style.left = 'auto';
+    notificationContainer.style.transform = 'none';
+
+    const text = document.createElement('span');
+    text.textContent = message;
+    notification.appendChild(text);
+    notificationContainer.appendChild(notification);
+
+    setTimeout(() => { notification.style.opacity = '1'; }, 10);
+    setTimeout(() => {
         notification.style.opacity = '0';
-        notification.style.transition = 'opacity 2.5s';
-        notification.style.display = 'flex';
-        notification.style.justifyContent = 'center';
-        notification.style.alignItems = 'center';
-        const icon = document.createElement('img');
-        icon.src = 'https://i.imgur.com/rBjM3OW.png';
-        icon.style.width = '20px';
-        icon.style.height = '20px';
-        icon.style.marginRight = '10px';
-        const text = document.createElement('span');
-        text.textContent = message;
-        notification.appendChild(icon);
-        notification.appendChild(text);
-        notificationContainer.appendChild(notification);
         setTimeout(() => {
-            notification.style.opacity = '1';
-        }, 10);
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            setTimeout(() => {
-                if (notification) {
-                    notification.remove();
-                }
-                if (notificationContainer && notificationContainer.children.length === 0) {
-                    notificationContainer.remove();
-                    notificationContainer = null;
-                }
-            }, 2500);
-        }, 6000);
-    };
+            if (notification) notification.remove();
+            if (notificationContainer && notificationContainer.children.length === 0) {
+                notificationContainer.remove();
+                notificationContainer = null;
+            }
+        }, 0);
+    }, 0);
+};
 	
-	showCustomNotification("Раскладка", "Loaded", "info");
     mazzx.addLabel("")
     const hudScript = document.currentScript;
     const hudElements = [];
@@ -794,5 +716,6 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
 
 
