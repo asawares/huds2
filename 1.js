@@ -1,59 +1,90 @@
 function AddHud() {
     let hudStyleElement;
     let loadingNotification;
-    function showLoadingNotification() {
-        if (document.getElementById('loadingNotification')) return;
-        loadingNotification = document.createElement('div');
-        loadingNotification.id = 'loadingNotification';
-        loadingNotification.style.position = 'fixed';
-        loadingNotification.style.bottom = '5%';
-        loadingNotification.style.right = '2%';
-        loadingNotification.style.transform = 'translateX(-50%)';
-        loadingNotification.style.display = 'flex';
-        loadingNotification.style.alignItems = 'center';
-        loadingNotification.style.padding = '10px 20px';
-        loadingNotification.style.backgroundColor = '#fff';
-        loadingNotification.style.color = '#000';
-        loadingNotification.style.fontFamily = 'Arial, sans-serif';
-        loadingNotification.style.fontSize = '16px';
-        loadingNotification.style.borderRadius = '8px';
-        loadingNotification.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.3)';
-        loadingNotification.style.opacity = '0';
-        loadingNotification.style.transition = 'opacity 2.5s';
-        loadingNotification.style.zIndex = '1000';
-        const spinner = document.createElement('div');
-        spinner.style.width = '20px';
-        spinner.style.height = '20px';
-        spinner.style.border = '3px solid rgba(255, 255, 255, 0.3)';
-        spinner.style.borderTop = '3px solid #fff';
-        spinner.style.borderRadius = '50%';
-        spinner.style.marginRight = '10px';
-        spinner.style.animation = 'spin 1s linear infinite';
-        const text = document.createElement('span');
-        text.textContent = 't.me/coreworkshop';
-        loadingNotification.appendChild(spinner);
-        loadingNotification.appendChild(text);
-        document.body.appendChild(loadingNotification);
-        const loadingStyle = document.createElement('style');
-        loadingStyle.textContent = `
-            @keyframes spin {
-                0% {
-                    transform: rotate(0deg);
-                }
-                100% {
-                    transform: rotate(360deg);
-                }
-            }
-        `;
-        document.head.appendChild(loadingStyle);
-        setTimeout(() => {
-            loadingNotification.style.opacity = '1';
-        }, 10);
+function showCustomNotification(title, status, iconType = "info") {
+    const containerId = "customNotificationContainer";
+
+    // Контейнер для стека уведомлений
+    let container = document.getElementById(containerId);
+    if (!container) {
+        container = document.createElement("div");
+        container.id = containerId;
+        container.style.position = "fixed";
+        container.style.bottom = "2%";
+        container.style.right = "2%";
+        container.style.display = "flex";
+        container.style.flexDirection = "column";
+        container.style.gap = "10px";
+        container.style.zIndex = "1000";
+        document.body.appendChild(container);
     }
-    showLoadingNotification();
-    window.mazzx = window.mazzx || {};
-    function formatNumberWithDots(x) {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+    // Само уведомление
+    const notification = document.createElement("div");
+    notification.style.display = "flex";
+    notification.style.alignItems = "center";
+    notification.style.gap = "12px";
+    notification.style.backgroundColor = "#fff";
+    notification.style.color = "#000";
+    notification.style.padding = "12px 16px";
+    notification.style.borderRadius = "10px";
+    notification.style.boxShadow = "0 4px 8px rgba(0,0,0,0.2)";
+    notification.style.fontFamily = "Arial, sans-serif";
+    notification.style.fontSize = "15px";
+    notification.style.minWidth = "220px";
+    notification.style.opacity = "0";
+    notification.style.transition = "opacity 0.5s ease";
+
+    // Иконка
+    const icon = document.createElement("div");
+    icon.style.width = "24px";
+    icon.style.height = "24px";
+    icon.style.borderRadius = "50%";
+    icon.style.display = "flex";
+    icon.style.alignItems = "center";
+    icon.style.justifyContent = "center";
+    icon.style.flexShrink = "0";
+
+    if (iconType === "info") {
+        icon.style.backgroundColor = "#2196f3";
+        icon.innerHTML = `<span style="color:white;font-weight:bold;">i</span>`;
+    } else if (iconType === "success") {
+        icon.style.backgroundColor = "#4caf50";
+        icon.innerHTML = `<span style="color:white;font-weight:bold;">✓</span>`;
+    }
+
+    // Текст
+    const textWrapper = document.createElement("div");
+    textWrapper.style.display = "flex";
+    textWrapper.style.flexDirection = "column";
+
+    const titleEl = document.createElement("div");
+    titleEl.textContent = title;
+    titleEl.style.fontWeight = "500";
+
+    const statusEl = document.createElement("div");
+    statusEl.textContent = status;
+    statusEl.style.fontSize = "13px";
+    statusEl.style.color = "#555";
+
+    textWrapper.appendChild(titleEl);
+    textWrapper.appendChild(statusEl);
+
+    // Собираем
+    notification.appendChild(icon);
+    notification.appendChild(textWrapper);
+    container.appendChild(notification);
+
+    // Анимация появления
+    setTimeout(() => {
+        notification.style.opacity = "1";
+    }, 50);
+
+    // Удаление через 5 сек
+    setTimeout(() => {
+        notification.style.opacity = "0";
+        setTimeout(() => container.removeChild(notification), 500);
+    }, 5000);
 }
     let notificationContainer;
     function createContainer() {
@@ -115,6 +146,8 @@ function AddHud() {
             }, 2500);
         }, 6000);
     };
+	
+	showCustomNotification("Раскладка", "Loaded", "info");
     mazzx.addLabel("")
     const hudScript = document.currentScript;
     const hudElements = [];
@@ -761,4 +794,5 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
 
