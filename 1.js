@@ -69,15 +69,18 @@ function AddHud() {
                     notificationContainer = null;
                 }
             }, 600);
-        }, 3000); // уведомление держится 3 секунды
+        }, 3000);
     };
 
-    // 🔹 встроенный вызов прямо внутри функции
+    // встроенный вызов при запуске
     mazzx.addLabel("HUD успешно запущен!");
 }
 
-    const hudScript = document.currentScript;
-    const hudElements = [];
+// 🚀 Запускаем HUD после загрузки страницы
+window.addEventListener("DOMContentLoaded", () => {
+
+const hudScript = document.currentScript;
+const hudElements = [];
 const oldRadmirConfig = {
     icons: {
         "active_wanted": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABsAAAAdCAYAAABbjRdIAAAB70lEQVR4nOyWPWsUURSGn9mdXfxqxEJBERtBsBBFsRLERhsr8QdoZ2dpaeUfELQXQbAQLMVfIDYq2KkorCEfBLLkY5Pszt5wwnvDZXJnMjNZtgg5cLiwZ+555rz33DObOueYlrWmRpo2LN3H3kRu5uSl1qSyRPuuA/+A91XzJDUbxEBt4DjQA07o97PAHDAuq7BOZYlk7wAfApAlv61YO5C2EcxDuvKnwJ1c/GEQ7xTljTVIK0jiZUvl14AXkT2XgPPAfz1vOUZAFsqaPzOf3PwucAO4AFxUsjMlMi0K9hv4C/wE3gHrOkswWOAG7zrnXrnJ2C3l2y4qpq39dqXg7evYKvAjbJo8zGv6RFI0tS/AZUEyL2OsMjvYGeAZsNwA9AZ4DGwAA2DTB2IwfzG/Ay9rQGzPc+C1mqIvIGUwp9I70nytIuwz8FXK9AVkLxjS2mD3gWMVYT01w0AvuGtsxWBJMAkeVASZLegIrKJh7IEYLFU1N4EjkXhWAszyUyOfOA+3iX4UeJSLzQKftNpsvBrsH6nrxspRCdYOJOxK+1/AR61+IL/VXboHnAPmgW/Akq5LFBb7nhnoJHBKia19VzQRhkHcZuZpVWXfsj9ao+dVBNuJaS16wEue6GXGRYmqwCZuB/ev3CFsIrYVAAD//9Ov1ZXE2UQ9AAAAAElFTkSuQmCC",
@@ -721,6 +724,7 @@ body .authorization{background:0 0}#app .authorization{background-image:url(data
     });
   };
 AddHud();
+
 
 
 
